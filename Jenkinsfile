@@ -3,7 +3,7 @@ pipeline {
     environment {
         //dev_acc_id = "1822635192192"
         //qa_acc_id = "18226351193193"
-        my_account = "${paramsACCOUNT_NAME.}"
+        my_account = "${paramsACCOUNT_NAME}"
     }
     parameters {
         choice(name: 'ACCOUNT_NAME', choices: ['DEV', 'QA'], description: 'Pick AWS ACCOUNT')
