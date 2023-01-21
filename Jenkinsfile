@@ -8,11 +8,9 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                script {
                 sh 'echo "Build stage executing shell script my_fst_jenkins.sh"'
                 sh 'chmod +x my_fst_jenkins.sh'
                 sh "./my_fst_jenkins.sh ${params.NAME} ${params.LASTNAME} ${params.SHOW}"
-            }
             }
         }
         stage('Test') { 
