@@ -21,7 +21,7 @@ pipeline {
         stage('Deploy in QA ') { 
           when {
             expression {
-              params.COLOR == 'QA'
+              params.ACCOUNT == 'QA'
             }
           }
             steps {
