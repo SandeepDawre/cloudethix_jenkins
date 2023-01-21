@@ -1,23 +1,39 @@
 pipeline {
     agent any 
+    environment {
+        dev_acc_id = "1822635192192"
+        qa_acc_id = "18226351193193"
+    }
     parameters {
-        choice(name: 'NAME', choices: ['One', 'Two', 'Three'], description: 'Pick NAME')
-        choice(name: 'LASTNAME', choices: ['HELLO', 'MOTO', 'FELLO'], description: 'Pick LASTNAME')
-        choice(name: 'SHOW', choices: ['true', 'false'], description: 'Pick SHOW')
+        choice(name: 'ACCOUNT', choices: ['DEV', 'QA'], description: 'Pick AWS ACCOUNT')
     }
     stages {
-        stage('Build') { 
+        stage('Build in DEV') { 
+          when {
+            expression {
+              params.ACCOUNT == 'DEV'
+            }
+          }
             steps {
-                sh 'echo "Build stage executing shell script my_fst_jenkins.sh"'
-                sh ' bash my_fst_jenkins.sh ${param.NAME} ${param.LASTNAME} ${param.SHOW}'
+                sh "echo Building the Project in dev aws account ${env.dev_acc_id}"
             }
         }
-        stage('Test') { 
+        stage('Build in QA ') { 
+          when {
+            expression {
+              params.COLOR == 'QA'
+            }
+          }
             steps {
-                sh 'echo "Running Test scripts from QA team"'
+                sh "echo Building the Project in QA aws account ${env.qa_acc_id}"
             }
         }
         stage('Deploy') { 
+          when {
+            expression {
+               BRANCH_NAME == /(master|release)/ 
+            }
+          }
             steps {
                sh 'echo "Deploying on K8S Cluster"'
             }
