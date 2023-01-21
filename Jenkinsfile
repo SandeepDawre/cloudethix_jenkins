@@ -1,32 +1,18 @@
 pipeline {
-    agent any 
-    parameters {
-        choice(name: 'NAME', choices: ['One', 'Two', 'Three'], description: 'Pick NAME')
-        choice(name: 'LASTNAME', choices: ['HELLO', 'MOTO', 'FELLO'], description: 'Pick LASTNAME')
-        choice(name: 'SHOW', choices: ['true', 'false'], description: 'Pick SHOW')
-    }
+    agent any
     stages {
-        stage('Build') { 
-            steps {
-                sh 'echo "Build stage executing shell script my_fst_jenkins.sh"'
-                sh ' bash my_fst_jenkins.sh ${param.NAME} ${param.LASTNAME} ${param.SHOW}'
+        stage('Example') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+                submitter "alice,bob"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                }
             }
-        }
-        stage('Test') { 
             steps {
-                sh 'echo "Running Test scripts from QA team"'
+                echo "Hello, ${PERSON}, nice to meet you."
             }
-        }
-        stage('Deploy') { 
-            steps {
-               sh 'echo "Deploying on K8S Cluster"'
-            }
-        }
-    }
-    post { 
-        always { 
-            echo 'Deleting Workspace'
-            deleteDir() /* clean up our workspace */
         }
     }
 }
