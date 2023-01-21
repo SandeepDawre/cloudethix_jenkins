@@ -46,10 +46,10 @@ pipeline {
 def getAccountNumber(String Acc_name) {
 
     if (Acc_name == 'DEV') {
-        sh "echo Hello , FYI Dev Aws Account ID"
+        sh "echo Hello from function name  getAccountNumber, FYI Dev Aws Account ID"
         sh "echo dev_acc_id = 1822635192192"
     }  else {
-         sh "echo Hello , FYI Dev Aws Account ID"
+         sh "echo Hello from function name  getAccountNumber, , FYI Dev Aws Account ID"
          sh "echo dev_acc_id = 1822635192192"
     }
 }
