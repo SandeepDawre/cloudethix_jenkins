@@ -8,7 +8,7 @@ pipeline {
         choice(name: 'ACCOUNT', choices: ['DEV', 'QA'], description: 'Pick AWS ACCOUNT')
     }
     stages {
-        stage('Build in DEV') { 
+        stage('Deploy in DEV') { 
           when {
             expression {
               params.ACCOUNT == 'DEV'
@@ -18,7 +18,7 @@ pipeline {
                 sh "echo Building the Project in dev aws account ${env.dev_acc_id}"
             }
         }
-        stage('Build in QA ') { 
+        stage('Deploy in QA ') { 
           when {
             expression {
               params.COLOR == 'QA'
@@ -26,16 +26,6 @@ pipeline {
           }
             steps {
                 sh "echo Building the Project in QA aws account ${env.qa_acc_id}"
-            }
-        }
-        stage('Deploy') { 
-          when {
-            expression {
-               BRANCH_NAME == /(master|release)/ 
-            }
-          }
-            steps {
-               sh 'echo "Deploying on K8S Cluster"'
             }
         }
     }
